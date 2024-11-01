@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";   
 
 function App() {
   const [password, setPassword] = useState("");
@@ -41,7 +41,7 @@ function App() {
   };
 
   return (
-    <div className="transition-all  flex min-h-screen w-full flex-col items-center justify-center bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500">
+    <div className="flex min-h-screen w-full flex-col items-center justify-center bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 transition-all">
       <h1 className="mb-8 text-center text-5xl font-extrabold text-white md:text-6xl">
         Password Generator
       </h1>
@@ -74,22 +74,28 @@ function App() {
           >
             Generate
           </button>
-          <div className=" flex items-center gap-1">
-          
-            <label className="pb-1 text-gray-600 text-md" htmlFor="resetId">Reset:</label>
-          <img
-          id="resetId"
-            onClick={() => {
-              // setLength("");
-              setPassword("")
-              setLength("8")
-              setNumber(false)
-              setCharacter(false)
-            }}
-            className=" cursor-pointer"
-            src="public/history_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg"
-            alt=""
-          />
+          <div className="flex items-center gap-1">
+            {/* <label className="text-md pb-1 text-gray-600" htmlFor="resetId">
+              Reset:
+            </label>
+            <img
+              id="resetId"
+              onClick={() => {
+                setPassword("");
+                setLength("8");
+                setNumber(false);
+                setCharacter(false);
+              }}
+              className="cursor-pointer"
+              src=""
+              alt="img"
+            /> */}
+            <button onClick={() => {
+                setPassword("");
+                setLength("8");
+                setNumber(false);
+                setCharacter(false);
+              }} className="mb-2 h-[40px] w-[100px] rounded-lg bg-violet-400 font-bold text-white text-center  ">Reset</button>
           </div>
         </div>
         <div className="mb-4 flex w-full flex-col items-center sm:flex-row">
