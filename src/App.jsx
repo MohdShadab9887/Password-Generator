@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from "react";
-// import "./App.css";
 
 function App() {
   const [password, setPassword] = useState("");
@@ -14,94 +13,83 @@ function App() {
     if (number) str += "1234567890";
     if (character) str += "!#$%&'*+,-./:;<=>?@^_|~";
 
-    for (let i = 0; i <= length; i++) {
-      let char = Math.floor(Math.random(str) * str.length + 1);
+    for (let i = 0; i < length; i++) {
+      let char = Math.floor(Math.random() * str.length);
       pass += str.charAt(char);
     }
     setPassword(pass);
-  }, [length, number, character, setPassword]);
+  }, [length, number, character]);
 
   useEffect(() => {
     passwordGenerator();
     setCopyToClipBoard(false);
-  }, [length, number, character, setPassword]);
+  }, [length, number, character]);
 
   const copyToClipboard = () => {
-    setCopyToClipBoard(true);
     navigator.clipboard.writeText(password).then(
       () => {
+        setCopyToClipBoard(true);
         alert("Password copied to clipboard!");
       },
       (error) => {
         alert("Failed to copy password:", error);
-      },
+      }
     );
   };
 
   return (
-    <>
-      <div className="flex h-screen w-screen flex-col items-center justify-center bg-red-400">
-        <h1 className="mb-8 text-6xl font-extrabold">Password Generator</h1>
-        <div className="flex h-fit flex-col items-center justify-center rounded-lg bg-gray-500 p-10">
-          <div className="">
+    <div className="flex flex-col items-center justify-center min-h-screen w-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500">
+      <h1 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl font-extrabold text-center text-white mb-6">Password Generator</h1>
+      <div className="bg-white rounded-lg shadow-lg p-5 sm:p-10 max-w-md w-full flex flex-col items-center">
+        <div className="flex flex-col w-full mb-4">
+          <input
+            className="h-12 rounded-lg bg-gray-200 text-gray-800 p-2 focus:outline-none mb-2"
+            value={password || "Password"}
+            type="text"
+            disabled
+          />
+          <button
+            className={`h-12 w-full rounded-lg text-white transition-colors duration-300 ${
+              copyToClipBoard ? "bg-green-500" : "bg-blue-500"
+            }`}
+            onClick={copyToClipboard}
+          >
+            {copyToClipBoard ? "Copied" : "Copy"}
+          </button>
+        </div>
+        <div className="flex items-center w-full mb-4">
+          <input
+            type="range"
+            min={8}
+            max={16}
+            value={length}
+            onChange={(e) => setLength(e.target.value)}
+            className="flex-grow"
+          />
+          <span className="ml-2 text-gray-700">Length: {length}</span>
+        </div>
+        <div className="flex flex-col w-full text-gray-700 font-semibold">
+          <label className="flex items-center justify-between mb-2">
             <input
-              className="h-[40px] w-[300px] justify-end rounded-l-lg bg-black p-2 text-white"
-              value={password ? password : "Password"}
-              type="text"
-              min={8}
-              max={16}
-              disabled
-              onChange={(e) => {
-                setLength(e.target.length);
-              }}
+              type="checkbox"
+              checked={number}
+              onChange={() => setNumber((prev) => !prev)}
+              className="mr-2"
             />
-            <button
-              className={`text-white ${
-                copyToClipBoard ? "bg-green-400" : "bg-red-400"
-              } h-[40px] w-[60px] rounded-r-lg text-center`}
-              onClick={copyToClipboard}
-            >
-              {copyToClipBoard ? "Copied" : "Copy"}
-            </button>
-          </div>
-          <br />
-          <div className="flex items-center justify-center gap-4 font-bold text-red-400">
-            <div className="flex flex-row gap-1">
-              <input
-                className=""
-                type="range"
-                min={8}
-                max={16}
-                value={length}
-                onChange={(e) => {
-                  setLength(e.target.value);
-                }}
-              />
-              <label>Length: {length}</label>
-            </div>
-
-            <div className="flex flex-row gap-1">
-              <input
-                type="checkbox"
-                name="number"
-                id="number123"
-                onChange={() => setNumber((prev) => !prev)}
-              />
-              <label htmlFor="number123">Number</label>
-            </div>
-            <div className="flex flex-row gap-1">
-              <input
-                type="checkbox"
-                name="character"
-                id="character123"
-                onChange={() => setCharacter((prev) => !prev)}
-              />
-              <label htmlFor="character123">Character</label>
-            </div>
-          </div>
+            Include Numbers
+          </label>
+          <label className="flex items-center justify-between">
+            <input
+              type="checkbox"
+              checked={character}
+              onChange={() => setCharacter((prev) => !prev)}
+              className="mr-2"
+            />
+            Include Symbols
+          </label>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
