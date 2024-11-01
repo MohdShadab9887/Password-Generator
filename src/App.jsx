@@ -23,12 +23,10 @@ function App() {
   // useEffect(() => {
   // }, [length, number, character]);
 
-  const generatePassword = () =>{
-
+  const generatePassword = () => {
     passwordGenerator();
     setCopyToClipBoard(false);
-  }
-  
+  };
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(password).then(
@@ -38,39 +36,63 @@ function App() {
       },
       (error) => {
         alert("Failed to copy password:", error);
-      }
+      },
     );
   };
 
   return (
-    <div className="flex flex-col items-center justify-center  min-h-screen w-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500">
-      <h1 className="text-5xl md:text-6xl font-extrabold text-center text-white mb-8">Password Generator</h1>
-      <div className="bg-white rounded-lg shadow-lg p-10 max-w-md w-4/5 h-full flex flex-col items-center xs:flex-col">
-        <div className="flex w-full mb-4 ">
+    <div className="transition-all  flex min-h-screen w-full flex-col items-center justify-center bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500">
+      <h1 className="mb-8 text-center text-5xl font-extrabold text-white md:text-6xl">
+        Password Generator
+      </h1>
+      <div className="flex h-full w-4/5 max-w-md flex-col items-center rounded-lg bg-white p-10 shadow-lg xs:flex-col">
+        <div className="mb-4 flex w-full">
           <input
-            className={`flex-grow h-12 rounded-l-lg  ${password.length >= 6 ? "rounded-l-lg":"rounded-lg"} bg-gray-200 text-gray-800 p-2 focus:outline-none`}
+            className={`h-12 flex-grow rounded-l-lg ${password.length >= 6 ? "rounded-l-lg" : "rounded-lg"} bg-gray-200 p-2 text-gray-500 focus:outline-none`}
             value={password || "Password"}
             type="text"
             disabled
           />
 
-          {password.length >= 6 ? <button
-            className={`h-12 w-24 rounded-r-lg text-white transition-colors duration-150 ${
-              copyToClipBoard ? "bg-green-500" : "bg-blue-500"
-            }`}
-            onClick={copyToClipboard}
-          >
-            {copyToClipBoard ? "Copied" : "Copy"}
-          </button>:""}
-          
+          {password.length >= 6 ? (
+            <button
+              className={`h-12 w-24 rounded-r-lg text-white transition-colors duration-150 ${
+                copyToClipBoard ? "bg-green-500" : "bg-blue-500"
+              }`}
+              onClick={copyToClipboard}
+            >
+              {copyToClipBoard ? "Copied" : "Copy"}
+            </button>
+          ) : (
+            ""
+          )}
         </div>
-        <div>
-          <button className="h-[40px] w-[100px] bg-indigo-400 rounded-lg mb-2 text-white font-bold"
-          onClick={generatePassword}>
+        <div className="flex gap-4">
+          <button
+            className="mb-2 h-[40px] w-[100px] rounded-lg bg-indigo-400 font-bold text-white"
+            onClick={generatePassword}
+          >
             Generate
           </button>
+          <div className=" flex items-center gap-1">
+          
+            <label className="pb-1 text-gray-600 text-md" htmlFor="resetId">Reset:</label>
+          <img
+          id="resetId"
+            onClick={() => {
+              // setLength("");
+              setPassword("")
+              setLength("8")
+              setNumber(false)
+              setCharacter(false)
+            }}
+            className=" cursor-pointer"
+            src="public/history_24dp_E8EAED_FILL0_wght400_GRAD0_opsz24.svg"
+            alt=""
+          />
+          </div>
         </div>
-        <div className="flex flex-col sm:flex-row items-center w-full mb-4">
+        <div className="mb-4 flex w-full flex-col items-center sm:flex-row">
           <input
             type="range"
             min={8}
@@ -81,7 +103,7 @@ function App() {
           />
           <span className="ml-2 text-gray-700">Length: {length}</span>
         </div>
-        <div className="flex flex-col sm:flex-row items-center justify-between w-full text-gray-700 font-semibold">
+        <div className="flex w-full flex-col items-center justify-between font-semibold text-gray-700 sm:flex-row">
           <label className="flex items-center">
             <input
               type="checkbox"
